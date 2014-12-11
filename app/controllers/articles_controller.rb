@@ -4,9 +4,15 @@ class ArticlesController < ApplicationController
   # GET /articles
   # GET /articles.json
   def index
-    @articles = Article.all
-  end
+    if Article.any?
+      @articles = Article.all
+    else
+      Feed.fetch_articles
+      @articles = Article.all
 
+    end
+  end
+  
   # GET /articles/1
   # GET /articles/1.json
   def show
@@ -71,4 +77,4 @@ class ArticlesController < ApplicationController
     def article_params
       params.require(:article).permit(:title, :url, :description)
     end
-end
+  end
